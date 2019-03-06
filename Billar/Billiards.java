@@ -65,6 +65,12 @@ public class Billiards extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Code is executed when start button is pushed
+			threads = new Thread[N_BALL];
+			for(int i=0;i<N_BALL;i++) {
+				threads[i]= makeThread(balls[i]);
+				threads[i].start();
+			}
+			
 
 		}
 	}
