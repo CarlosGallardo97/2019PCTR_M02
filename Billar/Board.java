@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
 
 	private Ball aBalls[];
-	private Board board;
 	protected Thread[] threads;
 
 	public static final int LEFTBOARD = 10;

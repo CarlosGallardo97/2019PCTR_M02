@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,7 +24,6 @@ public class Billiards extends JFrame {
 
 	// TODO update with number of group label. See practice statement.
 	private final int N_BALL = 6;
-	private Ball[] balls;
 	ExecutorService executor= Executors.newCachedThreadPool();
 
 	public Billiards() {
