@@ -7,6 +7,10 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 @SuppressWarnings("serial")
 public class Billiards extends JFrame {
@@ -16,11 +20,13 @@ public class Billiards extends JFrame {
 
 	private JButton b_start, b_stop;
 
-	private Board board;
+	protected final Board board;
+	protected Thread[] threads;
 
 	// TODO update with number of group label. See practice statement.
 	private final int N_BALL = 6;
 	private Ball[] balls;
+	ExecutorService executor= Executors.newCachedThreadPool();
 
 	public Billiards() {
 
@@ -52,26 +58,50 @@ public class Billiards extends JFrame {
 		setVisible(true);
 	}
 
-	private void initBalls() {
-		// TODO init balls
+	public void initBalls() {
+		// TODOinitballs
 		Ball[] balls= new Ball[N_BALL];
 		for(int i=0;i<N_BALL;i++) {
 			balls[i]= new Ball();
 		}
 		board.setBalls(balls);
+	
 	}
+	
+	protected Thread makeThread(final Ball balls) { // utility
+	      Runnable runloop = new Runnable() {
+	        public void run() {
+	          try {
+	            for(;;) {
+	              balls.move();
+	              board.repaint();
+	              Thread.sleep(100); // 100msec is arbitrary
+	              if (Thread.interrupted()){
+	            	  System.out.println("FIN");
+	              }
+	            }
+	          }
+	          catch (InterruptedException e) {
+	        	  return; }
+	        }
+	      };
+	      return new Thread(runloop);
+	    }
 
 	private class StartListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Code is executed when start button is pushed
+			Ball[] balls= new Ball[N_BALL];
+			for(int i=0;i<N_BALL;i++) {
+				balls[i]= new Ball();
+			}
+			board.setBalls(balls);
 			threads = new Thread[N_BALL];
 			for(int i=0;i<N_BALL;i++) {
 				threads[i]= makeThread(balls[i]);
-				threads[i].start();
+				executor.execute(threads[i]);
 			}
-			
-
 		}
 	}
 
@@ -79,6 +109,7 @@ public class Billiards extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Code is executed when stop button is pushed
+			
 
 		}
 	}
@@ -86,4 +117,5 @@ public class Billiards extends JFrame {
 	public static void main(String[] args) {
 		new Billiards();
 	}
+
 }

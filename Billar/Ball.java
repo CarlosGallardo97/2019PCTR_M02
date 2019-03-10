@@ -40,6 +40,7 @@ public class Ball {
 		
 		//TODO Check postcondition
 	}
+	
 
 	private void reflect() {
 		if (Math.abs(x + IMG_TAM_X - Board.RIGHTBOARD) <  Math.abs(dx)) {

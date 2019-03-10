@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
 
 	private Ball aBalls[];
+	private Board board;
+	protected Thread[] threads;
 
 	public static final int LEFTBOARD = 10;
 	public static final int RIGHTBOARD = Billiards.Width - 20;
@@ -43,5 +45,6 @@ public class Board extends JPanel {
 	public void setBalls(Ball[] balls) {
 		aBalls = balls;
 	}
+	
 
 }
